@@ -1,0 +1,37 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: tripguard-postgres
+    environment:
+      POSTGRES_DB: tripguard
+      POSTGRES_USER: tripguard
+      POSTGRES_PASSWORD: tripguard
+    ports:
+      - "5432:5432"
+    volumes:
+      - tripguard_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tripguard -d tripguard"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: tripguard-backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: jdbc:postgresql://postgres:5432/tripguard
+      DATABASE_USERNAME: tripguard
+      DATABASE_PASSWORD: tripguard
+      JWT_SECRET: tripguard-dev-secret-key-change-in-production-min-32-chars
+      SERVER_PORT: 8080
+    ports:
+      - "8080:8080"
+
+volumes:
+  tripguard_pg_data:

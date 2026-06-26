@@ -1,0 +1,316 @@
+@import "tailwindcss";
+
+@theme {
+  --color-eu-blue: #003399;
+  --color-eu-blue-light: #1e4fd6;
+  --color-eu-yellow: #ffcc00;
+  --color-eu-yellow-soft: #fff4cc;
+  --color-eu-red: #da291c;
+  --color-eu-red-soft: #ffe8e6;
+  --color-eu-navy: #0a1628;
+  --color-eu-slate: #1e293b;
+  --color-surface: #ffffff;
+  --color-muted: #f0f4fa;
+  --color-border: #d8e0ef;
+  --color-ink: #0a1628;
+  --color-ink-muted: #5c6b82;
+  --font-sans: "DM Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+body {
+  @apply min-h-screen bg-muted text-ink antialiased;
+  font-family: var(--font-sans);
+}
+
+.animate-fade-up {
+  animation: fade-up 0.5s ease-out both;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #e8edf5 25%, #dce4f0 50%, #e8edf5 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+.glass-nav {
+  @apply border-b border-border/80 bg-white/85 backdrop-blur-xl shadow-sm shadow-eu-navy/5;
+}
+
+.input-field {
+  @apply w-full rounded-xl border border-border bg-white px-4 py-3 text-ink shadow-sm outline-none transition placeholder:text-ink-muted/70 focus:border-eu-blue focus:ring-2 focus:ring-eu-blue/20;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  @apply text-2xl font-bold tracking-tight text-eu-navy md:text-3xl;
+}
+
+.card-hover {
+  @apply transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-eu-blue/10;
+}
+
+.eu-gradient-text {
+  @apply bg-gradient-to-r from-eu-blue via-eu-red to-eu-yellow bg-clip-text text-transparent;
+}
+
+.eu-btn-primary {
+  @apply bg-gradient-to-r from-eu-blue to-eu-blue-light text-white shadow-lg shadow-eu-blue/30 hover:shadow-eu-blue/45;
+}
+
+/* Pure CSS particle background (FlightScene) */
+@keyframes flight-particle-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  25% {
+    transform: translate3d(12px, -28px, 0) scale(1.15);
+  }
+  50% {
+    transform: translate3d(-8px, -52px, 0) scale(0.9);
+  }
+  75% {
+    transform: translate3d(16px, -36px, 0) scale(1.05);
+  }
+}
+
+@keyframes flight-particle-twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes flight-aurora-shift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.45;
+  }
+  50% {
+    transform: translate3d(4%, -3%, 0) scale(1.08);
+    opacity: 0.65;
+  }
+}
+
+.flight-scene__sky {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 80%, rgba(0, 51, 153, 0.55), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 85% 20%, rgba(30, 79, 214, 0.35), transparent 50%),
+    linear-gradient(165deg, #020812 0%, #0a1628 35%, #0c1f3d 65%, #061018 100%);
+}
+
+.flight-scene__aurora {
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(circle at 30% 40%, rgba(0, 51, 153, 0.25), transparent 45%),
+    radial-gradient(circle at 70% 60%, rgba(255, 204, 0, 0.08), transparent 40%);
+  animation: flight-aurora-shift 18s ease-in-out infinite;
+}
+
+.flight-scene__grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.6) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.6) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, black, transparent);
+}
+
+.flight-scene__particle {
+  position: absolute;
+  border-radius: 50%;
+  animation: flight-particle-float linear infinite, flight-particle-twinkle ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.flight-scene__particle--bright {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.5);
+}
+
+.flight-scene__particle--soft {
+  background: rgba(200, 220, 255, 0.7);
+  box-shadow: 0 0 4px 1px rgba(150, 190, 255, 0.35);
+}
+
+.flight-scene__particle--accent {
+  background: rgba(255, 204, 0, 0.85);
+  box-shadow: 0 0 8px 2px rgba(255, 204, 0, 0.4);
+}
+
+.flight-scene__glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: flight-aurora-shift 12s ease-in-out infinite;
+}
+
+.flight-scene__glow--blue {
+  right: -10%;
+  top: 5%;
+  height: 18rem;
+  width: 18rem;
+  background: rgba(0, 51, 153, 0.35);
+}
+
+.flight-scene__glow--yellow {
+  bottom: 10%;
+  left: -5%;
+  height: 14rem;
+  width: 14rem;
+  background: rgba(255, 204, 0, 0.12);
+  animation-delay: 4s;
+}
+
+.flight-scene__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(2, 8, 18, 0.65) 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flight-scene__particle,
+  .flight-scene__aurora,
+  .flight-scene__glow {
+    animation: none;
+  }
+
+  .flight-motion-group,
+  .flight-path-trail,
+  .flight-path-base,
+  .flight-contrail,
+  .flight-live-glow,
+  .flight-live-dot,
+  .flight-engine-pulse,
+  .flight-speed-lines line {
+    animation: none !important;
+  }
+}
+
+/* Live flight animations */
+@keyframes flight-path-dash {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+@keyframes flight-engine-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes flight-contrail-fade {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: translateX(0) scaleX(0.8);
+  }
+  50% {
+    opacity: 0.85;
+    transform: translateX(-2px) scaleX(1.1);
+  }
+}
+
+@keyframes flight-live-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+  }
+}
+
+@keyframes flight-speed-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 0.85;
+    transform: translateX(-3px);
+  }
+}
+
+.flight-speed-lines line:nth-child(1) {
+  animation: flight-speed-pulse 0.9s ease-in-out infinite;
+}
+
+.flight-speed-lines line:nth-child(2) {
+  animation: flight-speed-pulse 0.9s ease-in-out infinite 0.15s;
+}
+
+.flight-speed-lines line:nth-child(3) {
+  animation: flight-speed-pulse 0.9s ease-in-out infinite 0.3s;
+}
+
+.flight-path-trail {
+  stroke-dasharray: 3 5;
+  animation: flight-path-dash 1.4s linear infinite;
+}
+
+.flight-path-base {
+  stroke-dasharray: 2 6;
+}
+
+.flight-engine-pulse {
+  animation: flight-engine-blink 1.2s ease-in-out infinite;
+}
+
+.flight-contrail {
+  animation: flight-contrail-fade 1.6s ease-in-out infinite;
+}
+
+.flight-live-glow {
+  animation: flight-live-pulse 2s ease-out infinite;
+}
+
+.flight-live-dot {
+  animation: flight-engine-blink 1s ease-in-out infinite;
+}

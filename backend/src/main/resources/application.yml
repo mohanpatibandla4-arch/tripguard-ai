@@ -1,0 +1,76 @@
+spring:
+  application:
+    name: tripguard-backend
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/tripguard}
+    username: ${DATABASE_USERNAME:tripguard}
+    password: ${DATABASE_PASSWORD:tripguard}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: false
+  mail:
+    host: ${SMTP_HOST:}
+    port: ${SMTP_PORT:587}
+    username: ${SMTP_USERNAME:}
+    password: ${SMTP_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: /v1
+
+tripguard:
+  jwt:
+    secret: ${JWT_SECRET:tripguard-dev-secret-key-change-in-production-min-32-chars}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+  openai:
+    api-key: ${OPENAI_API_KEY:}
+    model: ${OPENAI_MODEL:gpt-4o-mini}
+    enabled: ${OPENAI_ENABLED:true}
+  flight:
+    opensky-enabled: ${OPENSKY_ENABLED:true}
+  notifications:
+    email:
+      enabled: ${NOTIFICATION_EMAIL_ENABLED:false}
+      from: ${NOTIFICATION_EMAIL_FROM:TripGuard AI <alerts@tripguard.ai>}
+    sms:
+      enabled: ${NOTIFICATION_SMS_ENABLED:false}
+      account-sid: ${TWILIO_ACCOUNT_SID:}
+      auth-token: ${TWILIO_AUTH_TOKEN:}
+      from-number: ${TWILIO_FROM_NUMBER:}
+    monitor:
+      enabled: ${FLIGHT_MONITOR_ENABLED:true}
+      interval-ms: ${FLIGHT_MONITOR_INTERVAL_MS:300000}
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: when_authorized
+
+logging:
+  level:
+    com.tripguard: INFO
+    org.springframework.security: WARN
